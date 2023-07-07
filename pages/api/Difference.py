@@ -4,32 +4,27 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-from prettytable import PrettyTable
+import sys
+import io
 
-url = 'https://www.speedrun.com/api/v1/leaderboards/o1y9wo6q/category/n2y55mko?top=10&embed=players&platform=N64'
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+url = 'https://www.speedrun.com/api/v1/leaderboards/o1y9wo6q/category/n2y55mko?top=100&embed=players&platform=N64'
 rs = requests.get(url, timeout=None)
 soup = BeautifulSoup(rs.content, features="html5lib")
 data = soup.text
 res = json.loads(data)
 
 names = []
-timeDiff = []
 
 wrTime = res.get('data').get('runs')[0].get('run').get('times').get('primary_t')
 
-for count in range(10):
+for count in range(100):
     time = (res.get('data').get('runs')[count].get('run').get('times').get('primary_t') - wrTime) / wrTime * 100
     try:
         name = res.get('data').get('players').get('data')[count].get('names').get('international')
     except:
         name = res.get('data').get('players').get('data')[count].get('name')
-    names.append(name)
-    timeDiff.append(time)
+    names.append(name + "|" + str(time))
 
-displayTable = PrettyTable(["Name", "Percent Slower Than WR"])
-
-for count in range(10):
-    displayTable.add_row([str(count + 1) + ". " + names[count], str("%.2f" % timeDiff[count]) + "%"])
-    # print("Name: " + names[count] + "   Time Differential(Percentage): " + str(timeDiff[count]) + "%")
-
-print(displayTable)
+print(names)
