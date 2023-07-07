@@ -25,6 +25,6 @@ for count in range(100):
         name = res.get('data').get('players').get('data')[count].get('names').get('international')
     except:
         name = res.get('data').get('players').get('data')[count].get('name')
-    names.append(name + "|" + str(time))
+    names.append(name + "|" + str("{:.2f}".format(time)))
 
 print(names)
