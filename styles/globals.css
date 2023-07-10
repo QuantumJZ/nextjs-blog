@@ -96,3 +96,10 @@ button {
   justify-content: center;
   text-align: center;
 }
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
