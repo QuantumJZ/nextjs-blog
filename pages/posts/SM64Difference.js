@@ -1,5 +1,8 @@
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import utilStyles from '../../styles/utils.module.css';
 
 export default function MyComponent() {
   const [output, setOutput] = useState('');
@@ -64,7 +67,17 @@ export default function MyComponent() {
 
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
-      <p><a href='../../'>Home</a></p>
+      <p><Link href="/">Home</Link></p>
+      <div className='center'>
+          <Image
+          priority
+          src="/images/SM64Cover.png"
+          className={utilStyles.borderSquare}
+          height={244}
+          width={244}
+          alt=""
+          />
+      </div>
       <Table />
     </div>
   );
