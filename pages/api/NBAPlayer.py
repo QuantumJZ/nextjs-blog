@@ -11,9 +11,4 @@ player_name1 = random_player1['full_name']
 random_player2 = random.choice(all_players)
 player_name2 = random_player2['full_name']
 
-# Nikola Jokić
-# career1 = playercareerstats.PlayerCareerStats(player_id=random_player1['id']) 
-# career2 = playercareerstats.PlayerCareerStats(player_id=random_player2['id']) 
-
-print(random_player2)
-# print(player_name2, " Points: ", career2.get_data_frames()[0]['PTS'].mean())
+print(random_player1, player_name1, random_player2, player_name2)
