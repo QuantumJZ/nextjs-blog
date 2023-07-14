@@ -103,3 +103,24 @@ button {
   align-items: center;
   text-align: center;
 }
+
+.page-container {
+  padding: 20px;
+  /* Add any other styles for the page container */
+}
+
+.players-container {
+  display: flex;
+  justify-content: center;
+  /* Add any other styles for the players container */
+}
+
+.player-item {
+  text-align: center;
+  margin: 0 20px;
+  /* Add any other styles for the player item */
+}
+
+.title {
+  text-align: center;
+}

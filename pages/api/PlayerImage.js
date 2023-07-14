@@ -1,37 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-const PlayerImage = () => {
-  const router = useRouter();
-  const { playerID } = router.query;
-  const [imageSrc, setImageSrc] = useState('');
+const PlayerImage = ({ playerID }) => {
+  const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     const fetchPlayerImage = async () => {
       try {
-        const response = await fetch(`/api/playerImage?playerID=${playerID}`);
-        const blob = await response.blob();
-        const imageUrl = URL.createObjectURL(blob);
-        setImageSrc(imageUrl);
+        const response = await fetch(`/api/image?playerID=${playerID}`);
+        const imageBlob = await response.blob();
+        const objectUrl = URL.createObjectURL(imageBlob);
+        setImageUrl(objectUrl);
       } catch (error) {
         console.error('Error fetching player image:', error);
       }
     };
 
-    if (playerID) {
-      fetchPlayerImage();
-    }
+    fetchPlayerImage();
   }, [playerID]);
 
-  return (
-    <div>
-      {imageSrc ? (
-        <img src={imageSrc} alt="Player Image" />
-      ) : (
-        <div>Loading player image...</div>
-      )}
-    </div>
-  );
+  return <img src={imageUrl} alt="Player Image" />;
 };
 
 export default PlayerImage;
