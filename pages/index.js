@@ -26,7 +26,7 @@ export default function Home() {
         <a href="/posts/SM64Difference" className={utilStyles.link}>Check Out The Current Super Mario 64: 16 Star Leaderboards!</a>
         <br/>
         <br/>
-        <a href="/posts/NBARandomPlayers" className={utilStyles.link}>First Post</a>
+        <a href="/posts/NBARandomPlayers" className={utilStyles.link}>Test Your NBA Knowledge</a>
       </section>
     </Layout>
   );
