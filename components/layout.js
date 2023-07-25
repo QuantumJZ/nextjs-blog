@@ -28,8 +28,8 @@ export default function Layout({ children, home }) {
               priority
               src="/images/PFPJustin.jpg"
               className={utilStyles.borderCircle}
-              height={200}
-              width={200}
+              height={280}
+              width={280}
               alt=""
             />
             <h1 className={utilStyles.heading2Xl}>{name}</h1>

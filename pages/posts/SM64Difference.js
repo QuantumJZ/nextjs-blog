@@ -38,7 +38,7 @@ export default function MyComponent() {
 
   const Table = () => {
     if (data.length === 0) {
-      return <div>No data available</div>;
+      return <div style={{textAlign: 'center', fontSize: '30px'}}>Loading...(May Take 15 Seconds)</div>;
     }
 
     return (
