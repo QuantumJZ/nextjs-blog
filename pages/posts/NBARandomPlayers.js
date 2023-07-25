@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import PlayerImage from '../api/PlayerImage';
 import Modal from 'react-modal';
+import Link from 'next/link';
 
 const NBARandomPlayers = () => {
   const [playerData, setPlayerData] = useState([]);
@@ -41,8 +42,6 @@ const NBARandomPlayers = () => {
         const player2Stat = await getPlayerStat(playerData[1].id, statMappings[selectedStat]);
         setPlayer1Stat(player1Stat);
         setPlayer2Stat(player2Stat);
-        console.log('player1Stat:', player1Stat);
-        console.log('player2Stat:', player2Stat);
       }
     };
 
@@ -195,6 +194,7 @@ const NBARandomPlayers = () => {
           <button onClick={() => window.location.reload()}>Try Again</button>
         </Modal>
       )}
+      <p style={{fontSize: '30px'}}><Link href="/">Home</Link></p>
     </div>
   );
 };
