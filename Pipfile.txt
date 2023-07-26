@@ -5,9 +5,24 @@ verify_ssl = true
 
 [packages]
 beautifulsoup4 = "*"
+certifi = "*"
+charset-normalizer = "*"
+html5lib = "*"
+idna = "*"
 nba-api = "*"
+numpy = "*"
 pandas = "*"
+prettytable = "*"
+python-dateutil = "*"
+pytz = "*"
 requests = "*"
+setuptools = "*"
+six = "*"
+soupsieve = "*"
+tzdata = "*"
+urllib3 = "*"
+wcwidth = "*"
+webencodings = "*"
 
 [requires]
 python_version = "3.11.4"
