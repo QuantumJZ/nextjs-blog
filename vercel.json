@@ -1,12 +1,12 @@
 {
     "functions": {
-        "api/NBAPlayer": {
+        "pages/api/NBAPlayer.py": {
             "runtime": "python3@3.11.4"
         },
-        "api/Difference": {
+        "pages/api/Difference.py": {
             "runtime": "python3@3.11.4"
         },
-        "api/NBAPlayerData": {
+        "pages/api/NBAPlayerData.py": {
             "runtime": "python3@3.11.4"
         }
     }
