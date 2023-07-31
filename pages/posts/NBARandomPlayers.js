@@ -19,8 +19,8 @@ const NBARandomPlayers = () => {
       try {
         const response = await fetch('/api/randomPlayers');
         const data = await response.json();
-        const { randomPlayer1, player1Name, randomPlayer2, player2Name } = data;
-        setPlayerData([{ id: randomPlayer1, name: player1Name }, { id: randomPlayer2, name: player2Name }]);
+        const { player1, player1Name, player2, player2Name } = data;
+        setPlayerData([{ id: player1, name: player1Name }, { id: player2, name: player2Name }]);
         setIsLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error('Error fetching random players:', error);
@@ -38,8 +38,8 @@ const NBARandomPlayers = () => {
   useEffect(() => {
     const fetchPlayerStats = async () => {
       if (playerData.length >= 2 && selectedStat) {
-        const player1Stat = await getPlayerStat(playerData[0].id, statMappings[selectedStat]);
-        const player2Stat = await getPlayerStat(playerData[1].id, statMappings[selectedStat]);
+        const player1Stat = await getPlayerStat(playerData[0].name, statMappings[selectedStat]);
+        const player2Stat = await getPlayerStat(playerData[1].name, statMappings[selectedStat]);
         setPlayer1Stat(player1Stat);
         setPlayer2Stat(player2Stat);
       }
@@ -51,24 +51,24 @@ const NBARandomPlayers = () => {
   const statMappings = {
     'Points': 'PTS',
     'Assists': 'AST',
-    'Rebounds': 'REB',
+    'Rebounds': 'TRB',
     'Steals': 'STL',
     'Blocks': 'BLK',
     'Turnovers': 'TOV',
-    'Field Goal %': 'FG_PCT',
-    'Free Throw %': 'FT_PCT',
-    '3-Point %': 'FG3_PCT',
-    'Minutes Played': 'MIN',
-    'Games Played': 'GP'
+    'Field Goal %': 'field_percent',
+    'Free Throw %': 'ft_percent',
+    '3-Point %': 'three_percent',
+    'Minutes Played': 'minutes_played',
+    'Games Played': 'games'
   };
 
   const compareStats = (playerID) => {
-    if (playerData.length >= 2 && player1Stat && player2Stat) {
-      if (playerID === playerData[0].id && player1Stat.result >= player2Stat.result) {
+    if (playerData.length >= 2) {
+      if (playerID === playerData[0].id && player1Stat.total_stat >= player2Stat.total_stat) {
         setScore((prevScore) => prevScore + 1);
         setCorrectPlayerID(playerData[0].id);
         setTimeout(() => {resetGame();}, 2000);
-      } else if (playerID === playerData[1].id && player2Stat.result >= player1Stat.result) {
+      } else if (playerID === playerData[1].id && player2Stat.total_stat >= player1Stat.total_stat) {
         setScore((prevScore) => prevScore + 1);
         setCorrectPlayerID(playerData[1].id);
         setTimeout(() => {resetGame();}, 3000);
@@ -110,8 +110,8 @@ const NBARandomPlayers = () => {
       try {
         const response = await fetch('/api/randomPlayers');
         const data = await response.json();
-        const { randomPlayer1, player1Name, randomPlayer2, player2Name } = data;
-        setPlayerData([{ id: randomPlayer1, name: player1Name }, { id: randomPlayer2, name: player2Name }]);
+        const { player1, player1Name, player2, player2Name } = data;
+        setPlayerData([{ id: player1, name: player1Name }, { id: player2, name: player2Name }]);
         setIsLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error('Error fetching random players:', error);
@@ -132,7 +132,7 @@ const NBARandomPlayers = () => {
         <div>Loading...</div>
       ) : (
         <>
-          <h1 className="title">Which Player Has More {selectedStat}?</h1>
+          <h1 className="title">Which Player Has Higher {selectedStat} In The 2023 Season?</h1>
           <br />
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             {playerData.map((player) => (
@@ -146,9 +146,9 @@ const NBARandomPlayers = () => {
                 />
                 {playerClicked &&
                   ((player.id === playerData[0].id && (
-                    <h3>{selectedStat}: {player1Stat ? player1Stat.result : 'N/A'}</h3>
+                    <h3>{selectedStat}: {player1Stat ? player1Stat.total_stat : 'N/A'}</h3>
                   )) || (player.id === playerData[1].id && (
-                    <h3>{selectedStat}: {player2Stat ? player2Stat.result : 'N/A'}</h3>
+                    <h3>{selectedStat}: {player2Stat ? player2Stat.total_stat : 'N/A'}</h3>
                   )))
                 }
               </div>
