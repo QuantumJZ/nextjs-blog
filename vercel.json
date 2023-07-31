@@ -9,5 +9,16 @@
         "pages/api/NBAPlayerData.py": {
             "runtime": "python3@3.11.4"
         }
-    }
-  }
+    },
+
+    "builds": [
+        {
+            "src": "api/*.py",
+            "use": "@now/python"
+        },
+        {
+            "src": "package.json",
+            "use": "@now/next"
+        }
+    ]
+}

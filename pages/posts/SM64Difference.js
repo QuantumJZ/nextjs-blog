@@ -3,42 +3,35 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import utilStyles from '../../styles/utils.module.css';
+import axios from 'axios';
 
 export default function MyComponent() {
-  const [output, setOutput] = useState('');
-  const [exitCode, setExitCode] = useState(null);
-  const [data, setData] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/readPythonFile'); // Use an absolute URL
+      const { names } = response.data;
+      const parsedData = names.map((item, index) => {
+        const [player, percent] = item.split('|');
+        const formattedPercent = index === names.length - 1 ? percent.replace("']", "%") : `${percent.replace("'", "")}%`;
+        return { 'Player (All Consoles)': player.replace("'", (index + 1) + ". "), 'Percent Slower Than WR': formattedPercent };
+      });
+
+      setData(parsedData);
+    } catch (error) {
+      console.error(`Error fetching data: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/readPythonFile?file_path=pages/api/Difference.py`);
-        const responseData = await response.json();
-        setOutput(responseData.output);
-        setExitCode(responseData.exitCode);
-
-        const dataString = responseData.output;
-        const dataArray = dataString.slice(1, -1).split(', ');
-
-        const parsedData = dataArray.map((item, index) => {
-          const [player, percent] = item.split('|');
-          const formattedPercent = index === dataArray.length - 1 ? percent.replace("']", "%") : `${percent.replace("'", "")}%`;
-          return { 'Player (All Consoles)': player.replace("'", (index + 1) + ". "), 'Percent Slower Than WR': formattedPercent };
-        });
-
-        setData(parsedData);
-      } catch (error) {
-        console.error(`Error executing Python file: ${error.message}`);
-      }
-    };
-
     fetchData();
   }, []);
 
   const Table = () => {
     if (data.length === 0) {
-      return <div style={{textAlign: 'center', fontSize: '30px'}}>Loading...(May Take 15 Seconds)</div>;
+      return <div style={{ textAlign: 'center', fontSize: '30px' }}>Loading...(May Take 15 Seconds)</div>;
     }
 
     return (
@@ -67,16 +60,11 @@ export default function MyComponent() {
 
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
-      <p><Link href="/">Home</Link></p>
-      <div className='center'>
-          <Image
-          priority
-          src="/images/SM64Cover.png"
-          className={utilStyles.borderSquare}
-          height={244}
-          width={244}
-          alt=""
-          />
+      <p>
+        <Link href="/">Home</Link>
+      </p>
+      <div className="center">
+        <Image priority src="/images/SM64Cover.png" className={utilStyles.borderSquare} height={244} width={244} alt="" />
       </div>
       <Table />
     </div>
